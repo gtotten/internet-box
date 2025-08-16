@@ -1,0 +1,14 @@
+FROM quay.io/fedora/fedora-toolbox:latest
+
+LABEL com.github.containers.toolbox="true" \
+      usage="This image is meant to be used with the toolbox or distrobox command" \
+      summary="Contains setup scripts for common internet apps on Fedora Atomic, including 1Password for system integration." 
+
+# Copy the setup scripts and package list
+COPY ../scripts/internet-box.sh /
+COPY ../scripts/distrobox-shims.sh /
+COPY ../packages/internet-box.packages /
+
+# Run the setup scripts
+RUN chmod +x internet-box.sh distrobox-shims.sh && /internet-box.sh
+RUN rm /internet-box.sh /distrobox-shims.sh /internet-box.packages
